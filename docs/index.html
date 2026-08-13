@@ -1,3 +1,4 @@
+cat > docs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -63,15 +64,15 @@
     border-radius: 10px; padding: 18px 20px; margin-top: 28px; display: flex; gap: 18px; align-items: flex-start;
   }
   .book-note img {
-  width: 90px; border-radius: 6px; flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  cursor: pointer;
-}
-.book-note img:hover {
-  transform: scale(1.15);
-  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.35);
-}
+    width: 90px; border-radius: 6px; flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+  .book-note img:hover {
+    transform: scale(1.15);
+    box-shadow: 0 12px 28px rgba(139, 92, 246, 0.35);
+  }
   .book-note .text { font-size: 0.88em; color: var(--muted); line-height: 1.5; }
   .book-note .text strong { color: var(--text); }
   .book-note .text a { color: var(--accent); text-decoration: none; font-weight: 600; }
@@ -147,13 +148,23 @@
     </div>
     <div class="book-note">
       <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">
-  <img src="assets/book-cover.jpg" alt="Practical Statistics for Data Scientists">
-</a>
+        <img src="assets/book-cover.jpg" alt="Practical Statistics for Data Scientists">
+      </a>
       <div class="text" data-i18n="book_note">
         <strong>Inspiración:</strong> este análisis se inspiró en los conceptos y lineamientos de 
         <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> 
         (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O'Reilly) — medidas de tendencia central, variabilidad, asimetría y curtosis aplicadas a un caso real.
       </div>
+    </div>
+    <div class="stats-section">
+      <h3 style="font-size:1.1em; margin: 32px 0 12px;" data-i18n="stats_title">Estadística Descriptiva</h3>
+      <p class="insight" style="margin-bottom: 16px;" data-i18n="stats_insight">
+        La longitud de respuesta muestra asimetría positiva marcada (1.7) y curtosis alta (3.7) —
+        la mayoría de respuestas son cortas, pero una cola de casos extensos empuja la media (634)
+        por encima de la mediana (540). La longitud de instrucción, en cambio, es casi simétrica (-0.2)
+        y con curtosis cercana a la normal (0.4).
+      </p>
+      <div id="stats-table-container"></div>
     </div>
   </header>
 
@@ -262,6 +273,8 @@
       hero_title: "Customer Support Analysis", hero_sub: "Bitext Customer Support Dataset · pandas + Plotly",
       link_dataset: "📊 View dataset on Hugging Face", link_repo: "💻 View full repository",
       stat1: "Queries analyzed", stat2: "Categories", stat3: "Intents", stat4: "Volume in ACCOUNT",
+      stats_title: "Descriptive Statistics",
+      stats_insight: "Response length shows marked positive skewness (1.7) and high kurtosis (3.7) — most responses are short, but a tail of extensive cases pulls the mean (634) above the median (540). Instruction length, in contrast, is nearly symmetric (-0.2) with kurtosis close to normal (0.4).",
       book_note: '<strong>Inspiration:</strong> this analysis was inspired by the concepts and guidelines from <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O\'Reilly) — measures of central tendency, variability, skewness and kurtosis applied to a real case.',
       s1_title: "Query distribution by category", s1_insight: "ACCOUNT concentrates the highest volume (5,986 rows, 22.3%) — the top candidate to prioritize automation.",
       s2_title: "Response length by category", s2_insight: "REFUND shows the highest dispersion (std of 566, nearly equal to its median) — cases ranging from simple to very extensive.",
@@ -293,5 +306,28 @@
   });
 </script>
 
+<script>
+  fetch('resumen_estadistico.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('stats-table-container').innerHTML = html;
+      const table = document.querySelector('.stats-table');
+      if (table) {
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.style.fontSize = '0.85em';
+        table.querySelectorAll('th, td').forEach(cell => {
+          cell.style.padding = '8px 12px';
+          cell.style.borderBottom = '1px solid var(--border)';
+          cell.style.textAlign = 'right';
+        });
+        table.querySelectorAll('th:first-child, td:first-child').forEach(cell => {
+          cell.style.textAlign = 'left';
+        });
+      }
+    });
+</script>
+
 </body>
 </html>
+HTMLEOF
