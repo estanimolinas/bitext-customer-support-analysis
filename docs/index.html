@@ -77,6 +77,8 @@ cat > docs/index.html << 'HTMLEOF'
   .book-note .text strong { color: var(--text); }
   .book-note .text a { color: var(--accent); text-decoration: none; font-weight: 600; }
   .book-note .text a:hover { text-decoration: underline; }
+  #stats-table-container { overflow-x: auto; margin-bottom: 8px; }
+#stats-table-container table { min-width: 900px; }
   section.chart-section {
     background: var(--card); border: 1px solid var(--border); border-radius: 16px;
     margin-top: 28px; overflow: hidden; scroll-margin-top: 20px;
@@ -153,7 +155,7 @@ cat > docs/index.html << 'HTMLEOF'
       <div class="text" data-i18n="book_note">
         <strong>Inspiración:</strong> este análisis se inspiró en los conceptos y lineamientos de 
         <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> 
-        (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O'Reilly) — medidas de tendencia central, variabilidad, asimetría y curtosis aplicadas a un caso real.
+        (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O'Reilly) — aplicados a un caso real.
       </div>
     </div>
     <div class="stats-section">
@@ -330,4 +332,3 @@ cat > docs/index.html << 'HTMLEOF'
 
 </body>
 </html>
-HTMLEOF
