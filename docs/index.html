@@ -60,9 +60,13 @@
   .stat .label { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
   .book-note {
     background: var(--card); border: 1px solid var(--border); border-left: 4px solid #8b5cf6;
-    border-radius: 10px; padding: 16px 20px; margin-top: 28px; font-size: 0.88em; color: var(--muted); line-height: 1.5;
+    border-radius: 10px; padding: 18px 20px; margin-top: 28px; display: flex; gap: 18px; align-items: flex-start;
   }
-  .book-note strong { color: var(--text); }
+  .book-note img { width: 90px; border-radius: 6px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .book-note .text { font-size: 0.88em; color: var(--muted); line-height: 1.5; }
+  .book-note .text strong { color: var(--text); }
+  .book-note .text a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .book-note .text a:hover { text-decoration: underline; }
   section.chart-section {
     background: var(--card); border: 1px solid var(--border); border-radius: 16px;
     margin-top: 28px; overflow: hidden; scroll-margin-top: 20px;
@@ -86,6 +90,7 @@
   @media (max-width: 800px) {
     nav { display: none; }
     main { margin-left: 0; width: 100%; padding: 24px; }
+    .book-note { flex-direction: column; align-items: center; text-align: center; }
   }
 </style>
 </head>
@@ -131,8 +136,13 @@
       <div class="stat"><div class="num">27</div><div class="label" data-i18n="stat3">Intenciones</div></div>
       <div class="stat"><div class="num">22.3%</div><div class="label" data-i18n="stat4">Volumen en ACCOUNT</div></div>
     </div>
-    <div class="book-note" data-i18n="book_note">
-      <strong>Inspiración:</strong> este análisis aplica conceptos de <em>Estadística práctica para ciencia de datos con R y Python</em> (Bruce, Bruce & Gedeck) — medidas de tendencia central, variabilidad, asimetría y curtosis aplicadas a un caso real.
+    <div class="book-note">
+      <img src="assets/book-cover.jpg" alt="Practical Statistics for Data Scientists">
+      <div class="text" data-i18n="book_note">
+        <strong>Inspiración:</strong> este análisis se inspiró en los conceptos y lineamientos de 
+        <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> 
+        (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O'Reilly) — medidas de tendencia central, variabilidad, asimetría y curtosis aplicadas a un caso real.
+      </div>
     </div>
   </header>
 
@@ -241,7 +251,7 @@
       hero_title: "Customer Support Analysis", hero_sub: "Bitext Customer Support Dataset · pandas + Plotly",
       link_dataset: "📊 View dataset on Hugging Face", link_repo: "💻 View full repository",
       stat1: "Queries analyzed", stat2: "Categories", stat3: "Intents", stat4: "Volume in ACCOUNT",
-      book_note: "<strong>Inspiration:</strong> this analysis applies concepts from <em>Practical Statistics for Data Scientists</em> (Bruce, Bruce & Gedeck) — measures of central tendency, variability, skewness and kurtosis applied to a real case.",
+      book_note: '<strong>Inspiration:</strong> this analysis was inspired by the concepts and guidelines from <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> (Peter Bruce, Andrew Bruce &amp; Peter Gedeck, O\'Reilly) — measures of central tendency, variability, skewness and kurtosis applied to a real case.',
       s1_title: "Query distribution by category", s1_insight: "ACCOUNT concentrates the highest volume (5,986 rows, 22.3%) — the top candidate to prioritize automation.",
       s2_title: "Response length by category", s2_insight: "REFUND shows the highest dispersion (std of 566, nearly equal to its median) — cases ranging from simple to very extensive.",
       s3_title: "Hierarchy of categories and intents", s3_insight: "ACCOUNT leads not only in volume but also in variety: 6 of the 27 total intents.",
