@@ -62,7 +62,16 @@
     background: var(--card); border: 1px solid var(--border); border-left: 4px solid #8b5cf6;
     border-radius: 10px; padding: 18px 20px; margin-top: 28px; display: flex; gap: 18px; align-items: flex-start;
   }
-  .book-note img { width: 90px; border-radius: 6px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .book-note img {
+  width: 90px; border-radius: 6px; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.book-note img:hover {
+  transform: scale(1.15);
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.35);
+}
   .book-note .text { font-size: 0.88em; color: var(--muted); line-height: 1.5; }
   .book-note .text strong { color: var(--text); }
   .book-note .text a { color: var(--accent); text-decoration: none; font-weight: 600; }
@@ -137,7 +146,9 @@
       <div class="stat"><div class="num">22.3%</div><div class="label" data-i18n="stat4">Volumen en ACCOUNT</div></div>
     </div>
     <div class="book-note">
-      <img src="assets/book-cover.jpg" alt="Practical Statistics for Data Scientists">
+      <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">
+  <img src="assets/book-cover.jpg" alt="Practical Statistics for Data Scientists">
+</a>
       <div class="text" data-i18n="book_note">
         <strong>Inspiración:</strong> este análisis se inspiró en los conceptos y lineamientos de 
         <a href="https://www.oreilly.com/library/view/practical-statistics-for/9781492072935/" target="_blank">Practical Statistics for Data Scientists, 2nd Edition</a> 
