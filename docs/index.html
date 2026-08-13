@@ -3,118 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Análisis Bitext Customer Support Dataset</title>
+<title>Bitext Customer Support — Dashboard</title>
 <style>
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 60px 24px;
-    background: #fafafa;
+    background: #f6f7fb;
     color: #1a1a2e;
+    display: flex;
   }
-  header { margin-bottom: 48px; }
-  h1 {
-    font-size: 2em;
-    margin-bottom: 8px;
+
+  /* Sidebar */
+  nav {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+    background: #14142b;
+    padding: 32px 20px;
+    overflow-y: auto;
+  }
+  nav h2 {
+    color: #fff;
+    font-size: 1.05em;
+    margin-bottom: 4px;
+  }
+  nav .tag {
+    color: #8b8bd8;
+    font-size: 0.75em;
+    margin-bottom: 28px;
+    display: block;
+  }
+  nav a {
+    display: block;
+    color: #b8b8d8;
+    text-decoration: none;
+    font-size: 0.88em;
+    padding: 9px 12px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: background 0.15s, color 0.15s;
+  }
+  nav a:hover { background: #24244a; color: #fff; }
+  nav .github {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a52;
+    color: #8b5cf6 !important;
+    font-weight: 600;
+  }
+
+  /* Main */
+  main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 40px 48px 80px;
+  }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+  header.hero h1 {
+    font-size: 1.9em;
     background: linear-gradient(135deg, #6366f1, #8b5cf6);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    margin-bottom: 6px;
   }
-  .subtitle { color: #666; font-size: 1.05em; margin-bottom: 4px; }
-  .github-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 12px;
-    color: #6366f1;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95em;
-  }
-  .github-link:hover { text-decoration: underline; }
-  .grid {
+  header.hero p { color: #666; font-size: 1em; }
+
+  .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin: 28px 0 8px;
   }
-  .card {
-    display: block;
+  .stat {
     background: white;
-    border: 1px solid #eaeaea;
+    border: 1px solid #eaeaf2;
     border-radius: 12px;
-    padding: 20px;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    padding: 18px 20px;
   }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.12);
-    border-color: #c7d2fe;
+  .stat .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #6366f1;
   }
-  .card-num {
+  .stat .label { font-size: 0.8em; color: #888; margin-top: 2px; }
+
+  section.chart-section {
+    background: white;
+    border: 1px solid #eaeaf2;
+    border-radius: 16px;
+    margin-top: 32px;
+    overflow: hidden;
+    scroll-margin-top: 20px;
+  }
+  section.chart-section .header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f0f0f5;
+  }
+  section.chart-section .header .num {
     display: inline-block;
-    font-size: 0.75em;
+    font-size: 0.72em;
     font-weight: 700;
     color: #8b5cf6;
     background: #f3f0ff;
     padding: 2px 8px;
     border-radius: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  .card-title { font-size: 1.05em; font-weight: 600; line-height: 1.4; }
-  footer { margin-top: 56px; color: #999; font-size: 0.85em; text-align: center; }
+  section.chart-section h3 { font-size: 1.15em; margin-bottom: 4px; }
+  section.chart-section p.insight { color: #666; font-size: 0.92em; line-height: 1.5; max-width: 700px; }
+  section.chart-section iframe {
+    width: 100%;
+    height: 560px;
+    border: none;
+    display: block;
+  }
+
+  footer {
+    text-align: center;
+    color: #999;
+    font-size: 0.85em;
+    margin-top: 56px;
+  }
+
+  @media (max-width: 800px) {
+    nav { display: none; }
+    main { margin-left: 0; width: 100%; padding: 24px; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Análisis Exploratorio</h1>
-  <p class="subtitle">Bitext Customer Support Dataset — 26,872 conversaciones de soporte al cliente</p>
-  <a class="github-link" href="https://github.com/estanimolinas/bitext-customer-support-analysis">
-    → Ver repositorio completo en GitHub
-  </a>
-</header>
+<nav>
+  <h2>Bitext Support</h2>
+  <span class="tag">Análisis Exploratorio</span>
+  <a href="#s1">01 · Distribución por categoría</a>
+  <a href="#s2">02 · Longitud de respuesta</a>
+  <a href="#s3">03 · Jerarquía category → intent</a>
+  <a href="#s4">04 · Forma de la distribución</a>
+  <a href="#s5">05 · Instrucción vs. respuesta</a>
+  <a href="#s6">06 · Mapa de calor</a>
+  <a href="#s7">07 · Panel resumen</a>
+  <a href="#s8">08 · Comparación multidimensional</a>
+  <a class="github" href="https://github.com/estanimolinas/bitext-customer-support-analysis" target="_blank">→ Ver en GitHub</a>
+</nav>
 
-<div class="grid">
-  <a class="card" href="01_distribucion_categorias.html">
-    <span class="card-num">01</span>
-    <div class="card-title">Distribución de consultas por categoría</div>
-  </a>
-  <a class="card" href="02_boxplot_longitud.html">
-    <span class="card-num">02</span>
-    <div class="card-title">Longitud de respuesta por categoría (boxplot)</div>
-  </a>
-  <a class="card" href="03_sunburst_jerarquia.html">
-    <span class="card-num">03</span>
-    <div class="card-title">Jerarquía de categorías e intenciones</div>
-  </a>
-  <a class="card" href="04_violin_longitud.html">
-    <span class="card-num">04</span>
-    <div class="card-title">Forma de la distribución (violin)</div>
-  </a>
-  <a class="card" href="05_scatter_longitudes.html">
-    <span class="card-num">05</span>
-    <div class="card-title">Longitud de instrucción vs. respuesta</div>
-  </a>
-  <a class="card" href="06_heatmap_categoria_intent.html">
-    <span class="card-num">06</span>
-    <div class="card-title">Mapa de calor: categoría × intención</div>
-  </a>
-  <a class="card" href="07_panel_resumen.html">
-    <span class="card-num">07</span>
-    <div class="card-title">Panel resumen</div>
-  </a>
-  <a class="card" href="08_radar_categorias.html">
-    <span class="card-num">08</span>
-    <div class="card-title">Comparación multidimensional (radar)</div>
-  </a>
-</div>
+<main>
+  <header class="hero">
+    <h1>Análisis de Soporte al Cliente</h1>
+    <p>Bitext Customer Support Dataset · pandas + Plotly</p>
+    <div class="stats">
+      <div class="stat"><div class="num">26,872</div><div class="label">Consultas analizadas</div></div>
+      <div class="stat"><div class="num">11</div><div class="label">Categorías</div></div>
+      <div class="stat"><div class="num">27</div><div class="label">Intenciones</div></div>
+      <div class="stat"><div class="num">22.3%</div><div class="label">Volumen en ACCOUNT</div></div>
+    </div>
+  </header>
 
-<footer>Análisis realizado con pandas + Plotly · Dataset público de Hugging Face (Bitext, licencia CDLA-Sharing-1.0)</footer>
+  <section class="chart-section" id="s1">
+    <div class="header">
+      <span class="num">01</span>
+      <h3>Distribución de consultas por categoría</h3>
+      <p class="insight">ACCOUNT concentra el mayor volumen (5,986 filas, 22.3%) — la principal candidata para priorizar automatización.</p>
+    </div>
+    <iframe src="01_distribucion_categorias.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s2">
+    <div class="header">
+      <span class="num">02</span>
+      <h3>Longitud de respuesta por categoría</h3>
+      <p class="insight">REFUND muestra la mayor dispersión (desvío estándar de 566, casi igual a su mediana) — casos que van de simples a muy extensos.</p>
+    </div>
+    <iframe src="02_boxplot_longitud.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s3">
+    <div class="header">
+      <span class="num">03</span>
+      <h3>Jerarquía de categorías e intenciones</h3>
+      <p class="insight">ACCOUNT no solo lidera en volumen, también en variedad: 6 de las 27 intenciones totales.</p>
+    </div>
+    <iframe src="03_sunburst_jerarquia.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s4">
+    <div class="header">
+      <span class="num">04</span>
+      <h3>Forma de la distribución de longitud de respuesta</h3>
+      <p class="insight">El violin plot revela si la variabilidad de REFUND corresponde a una distribución bimodal o simplemente amplia.</p>
+    </div>
+    <iframe src="04_violin_longitud.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s5">
+    <div class="header">
+      <span class="num">05</span>
+      <h3>Longitud de instrucción vs. longitud de respuesta</h3>
+      <p class="insight">Correlación de apenas 0.11 — la extensión de la consulta no predice la extensión de la respuesta.</p>
+    </div>
+    <iframe src="05_scatter_longitudes.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s6">
+    <div class="header">
+      <span class="num">06</span>
+      <h3>Mapa de calor: categoría × intención</h3>
+      <p class="insight">Vista compacta de qué combinaciones de categoría e intención concentran más volumen.</p>
+    </div>
+    <iframe src="06_heatmap_categoria_intent.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s7">
+    <div class="header">
+      <span class="num">07</span>
+      <h3>Panel resumen</h3>
+      <p class="insight">Cuatro métricas clave combinadas en un solo vistazo: volumen, longitud mediana, cantidad de intents y top intents.</p>
+    </div>
+    <iframe src="07_panel_resumen.html"></iframe>
+  </section>
+
+  <section class="chart-section" id="s8">
+    <div class="header">
+      <span class="num">08</span>
+      <h3>Comparación multidimensional por categoría</h3>
+      <p class="insight">Volumen, longitud mediana y cantidad de intents normalizados en un mismo radar por categoría.</p>
+    </div>
+    <iframe src="08_radar_categorias.html"></iframe>
+  </section>
+
+  <footer>Dataset público de Hugging Face (Bitext, licencia CDLA-Sharing-1.0) · Análisis con pandas + Plotly</footer>
+</main>
 
 </body>
 </html>
