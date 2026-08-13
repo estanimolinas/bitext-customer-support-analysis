@@ -6,130 +6,83 @@
 <title>Bitext Customer Support — Dashboard</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f6f7fb; --card: #ffffff; --border: #eaeaf2; --text: #1a1a2e;
+    --muted: #666; --nav-bg: #14142b; --nav-text: #b8b8d8; --accent: #6366f1;
+  }
+  body.dark {
+    --bg: #0f0f1e; --card: #1a1a2e; --border: #2a2a45; --text: #eaeaf2;
+    --muted: #9999b8; --nav-bg: #08081a; --nav-text: #8b8bd8;
+  }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f6f7fb;
-    color: #1a1a2e;
-    display: flex;
+    background: var(--bg); color: var(--text); display: flex;
+    transition: background 0.2s, color 0.2s;
   }
-
-  /* Sidebar */
   nav {
-    width: 240px;
-    height: 100vh;
-    position: fixed;
-    top: 0; left: 0;
-    background: #14142b;
-    padding: 32px 20px;
-    overflow-y: auto;
+    width: 240px; height: 100vh; position: fixed; top: 0; left: 0;
+    background: var(--nav-bg); padding: 28px 20px; overflow-y: auto;
   }
-  nav h2 {
-    color: #fff;
-    font-size: 1.05em;
-    margin-bottom: 4px;
-  }
-  nav .tag {
-    color: #8b8bd8;
-    font-size: 0.75em;
-    margin-bottom: 28px;
-    display: block;
-  }
+  nav h2 { color: #fff; font-size: 1.05em; margin-bottom: 4px; }
+  nav .tag { color: #8b8bd8; font-size: 0.75em; margin-bottom: 20px; display: block; }
   nav a {
-    display: block;
-    color: #b8b8d8;
-    text-decoration: none;
-    font-size: 0.88em;
-    padding: 9px 12px;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    transition: background 0.15s, color 0.15s;
+    display: block; color: var(--nav-text); text-decoration: none; font-size: 0.88em;
+    padding: 9px 12px; border-radius: 8px; margin-bottom: 4px; transition: background 0.15s, color 0.15s;
   }
   nav a:hover { background: #24244a; color: #fff; }
-  nav .github {
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid #2a2a52;
-    color: #8b5cf6 !important;
-    font-weight: 600;
+  nav .divider { border-top: 1px solid #2a2a52; margin: 16px 0; }
+  nav .external { color: #8b5cf6 !important; font-weight: 600; font-size: 0.85em; }
+  nav .author { margin-top: 20px; padding-top: 16px; border-top: 1px solid #2a2a52; }
+  nav .author p { color: #8b8bd8; font-size: 0.75em; margin-bottom: 8px; }
+  nav .author a { padding: 6px 12px; font-size: 0.82em; }
+  main { margin-left: 240px; width: calc(100% - 240px); padding: 40px 48px 80px; }
+  .topbar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 24px; }
+  .toggle-btn {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 14px; border-radius: 8px; font-size: 0.85em; cursor: pointer; font-weight: 600;
   }
-
-  /* Main */
-  main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    padding: 40px 48px 80px;
-  }
-
-  header.hero {
-    margin-bottom: 40px;
-  }
+  .toggle-btn:hover { border-color: var(--accent); }
+  header.hero { margin-bottom: 36px; }
   header.hero h1 {
-    font-size: 1.9em;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 6px;
+    font-size: 1.9em; background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 6px;
   }
-  header.hero p { color: #666; font-size: 1em; }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin: 28px 0 8px;
+  header.hero p { color: var(--muted); font-size: 1em; }
+  .links-row { margin-top: 14px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .links-row a {
+    color: var(--accent); text-decoration: none; font-size: 0.88em; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
   }
-  .stat {
-    background: white;
-    border: 1px solid #eaeaf2;
-    border-radius: 12px;
-    padding: 18px 20px;
+  .links-row a:hover { text-decoration: underline; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 28px 0 8px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .stat .num { font-size: 1.6em; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .book-note {
+    background: var(--card); border: 1px solid var(--border); border-left: 4px solid #8b5cf6;
+    border-radius: 10px; padding: 16px 20px; margin-top: 28px; font-size: 0.88em; color: var(--muted); line-height: 1.5;
   }
-  .stat .num {
-    font-size: 1.6em;
-    font-weight: 700;
-    color: #6366f1;
-  }
-  .stat .label { font-size: 0.8em; color: #888; margin-top: 2px; }
-
+  .book-note strong { color: var(--text); }
   section.chart-section {
-    background: white;
-    border: 1px solid #eaeaf2;
-    border-radius: 16px;
-    margin-top: 32px;
-    overflow: hidden;
-    scroll-margin-top: 20px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    margin-top: 28px; overflow: hidden; scroll-margin-top: 20px;
   }
-  section.chart-section .header {
-    padding: 20px 24px;
-    border-bottom: 1px solid #f0f0f5;
-  }
+  section.chart-section .header { padding: 20px 24px; border-bottom: 1px solid var(--border); }
   section.chart-section .header .num {
-    display: inline-block;
-    font-size: 0.72em;
-    font-weight: 700;
-    color: #8b5cf6;
-    background: #f3f0ff;
-    padding: 2px 8px;
-    border-radius: 6px;
-    margin-bottom: 8px;
+    display: inline-block; font-size: 0.72em; font-weight: 700; color: #8b5cf6;
+    background: #f3f0ff; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;
   }
+  body.dark section.chart-section .header .num { background: #2a2050; }
   section.chart-section h3 { font-size: 1.15em; margin-bottom: 4px; }
-  section.chart-section p.insight { color: #666; font-size: 0.92em; line-height: 1.5; max-width: 700px; }
-  section.chart-section iframe {
-    width: 100%;
-    height: 560px;
-    border: none;
-    display: block;
+  section.chart-section p.insight { color: var(--muted); font-size: 0.92em; line-height: 1.5; max-width: 700px; }
+  section.chart-section iframe { width: 100%; height: 560px; border: none; display: block; background: white; }
+  footer { text-align: center; color: var(--muted); font-size: 0.85em; margin-top: 56px; line-height: 1.8; }
+  footer a { color: var(--accent); text-decoration: none; }
+  #backTop {
+    position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: white;
+    border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.1em;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.4); display: none;
   }
-
-  footer {
-    text-align: center;
-    color: #999;
-    font-size: 0.85em;
-    margin-top: 56px;
-  }
-
   @media (max-width: 800px) {
     nav { display: none; }
     main { margin-left: 0; width: 100%; padding: 24px; }
@@ -139,36 +92,55 @@
 <body>
 
 <nav>
-  <h2>Bitext Support</h2>
-  <span class="tag">Análisis Exploratorio</span>
-  <a href="#s1">01 · Distribución por categoría</a>
-  <a href="#s2">02 · Longitud de respuesta</a>
-  <a href="#s3">03 · Jerarquía category → intent</a>
-  <a href="#s4">04 · Forma de la distribución</a>
-  <a href="#s5">05 · Instrucción vs. respuesta</a>
-  <a href="#s6">06 · Mapa de calor</a>
-  <a href="#s7">07 · Panel resumen</a>
-  <a href="#s8">08 · Comparación multidimensional</a>
-  <a class="github" href="https://github.com/estanimolinas/bitext-customer-support-analysis" target="_blank">→ Ver en GitHub</a>
+  <h2 data-i18n="nav_title">Bitext Support</h2>
+  <span class="tag" data-i18n="nav_tag">Análisis Exploratorio</span>
+  <a href="#s1" data-i18n="s1_nav">01 · Distribución por categoría</a>
+  <a href="#s2" data-i18n="s2_nav">02 · Longitud de respuesta</a>
+  <a href="#s3" data-i18n="s3_nav">03 · Jerarquía category → intent</a>
+  <a href="#s4" data-i18n="s4_nav">04 · Forma de la distribución</a>
+  <a href="#s5" data-i18n="s5_nav">05 · Instrucción vs. respuesta</a>
+  <a href="#s6" data-i18n="s6_nav">06 · Mapa de calor</a>
+  <a href="#s7" data-i18n="s7_nav">07 · Panel resumen</a>
+  <a href="#s8" data-i18n="s8_nav">08 · Comparación multidimensional</a>
+  <div class="divider"></div>
+  <a class="external" href="https://github.com/estanimolinas/bitext-customer-support-analysis" target="_blank" data-i18n="nav_repo">→ Repositorio en GitHub</a>
+  <a class="external" href="https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset" target="_blank" data-i18n="nav_dataset">→ Dataset en Hugging Face</a>
+  <div class="author">
+    <p data-i18n="author_by">Por Estanislao Molinas</p>
+    <a class="external" href="https://github.com/estanimolinas" target="_blank">GitHub</a>
+    <a class="external" href="https://www.linkedin.com/in/estanislao-molinas-4057ba1b8/" target="_blank">LinkedIn</a>
+  </div>
 </nav>
 
 <main>
+  <div class="topbar">
+    <button class="toggle-btn" id="langToggle">EN</button>
+    <button class="toggle-btn" id="darkToggle">🌙</button>
+  </div>
+
   <header class="hero">
-    <h1>Análisis de Soporte al Cliente</h1>
-    <p>Bitext Customer Support Dataset · pandas + Plotly</p>
+    <h1 data-i18n="hero_title">Análisis de Soporte al Cliente</h1>
+    <p data-i18n="hero_sub">Bitext Customer Support Dataset · pandas + Plotly</p>
+    <div class="links-row">
+      <a href="https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset" target="_blank" data-i18n="link_dataset">📊 Ver dataset en Hugging Face</a>
+      <a href="https://github.com/estanimolinas/bitext-customer-support-analysis" target="_blank" data-i18n="link_repo">💻 Ver repositorio completo</a>
+    </div>
     <div class="stats">
-      <div class="stat"><div class="num">26,872</div><div class="label">Consultas analizadas</div></div>
-      <div class="stat"><div class="num">11</div><div class="label">Categorías</div></div>
-      <div class="stat"><div class="num">27</div><div class="label">Intenciones</div></div>
-      <div class="stat"><div class="num">22.3%</div><div class="label">Volumen en ACCOUNT</div></div>
+      <div class="stat"><div class="num">26,872</div><div class="label" data-i18n="stat1">Consultas analizadas</div></div>
+      <div class="stat"><div class="num">11</div><div class="label" data-i18n="stat2">Categorías</div></div>
+      <div class="stat"><div class="num">27</div><div class="label" data-i18n="stat3">Intenciones</div></div>
+      <div class="stat"><div class="num">22.3%</div><div class="label" data-i18n="stat4">Volumen en ACCOUNT</div></div>
+    </div>
+    <div class="book-note" data-i18n="book_note">
+      <strong>Inspiración:</strong> este análisis aplica conceptos de <em>Estadística práctica para ciencia de datos con R y Python</em> (Bruce, Bruce & Gedeck) — medidas de tendencia central, variabilidad, asimetría y curtosis aplicadas a un caso real.
     </div>
   </header>
 
   <section class="chart-section" id="s1">
     <div class="header">
       <span class="num">01</span>
-      <h3>Distribución de consultas por categoría</h3>
-      <p class="insight">ACCOUNT concentra el mayor volumen (5,986 filas, 22.3%) — la principal candidata para priorizar automatización.</p>
+      <h3 data-i18n="s1_title">Distribución de consultas por categoría</h3>
+      <p class="insight" data-i18n="s1_insight">ACCOUNT concentra el mayor volumen (5,986 filas, 22.3%) — la principal candidata para priorizar automatización.</p>
     </div>
     <iframe src="01_distribucion_categorias.html"></iframe>
   </section>
@@ -176,8 +148,8 @@
   <section class="chart-section" id="s2">
     <div class="header">
       <span class="num">02</span>
-      <h3>Longitud de respuesta por categoría</h3>
-      <p class="insight">REFUND muestra la mayor dispersión (desvío estándar de 566, casi igual a su mediana) — casos que van de simples a muy extensos.</p>
+      <h3 data-i18n="s2_title">Longitud de respuesta por categoría</h3>
+      <p class="insight" data-i18n="s2_insight">REFUND muestra la mayor dispersión (desvío estándar de 566, casi igual a su mediana) — casos que van de simples a muy extensos.</p>
     </div>
     <iframe src="02_boxplot_longitud.html"></iframe>
   </section>
@@ -185,8 +157,8 @@
   <section class="chart-section" id="s3">
     <div class="header">
       <span class="num">03</span>
-      <h3>Jerarquía de categorías e intenciones</h3>
-      <p class="insight">ACCOUNT no solo lidera en volumen, también en variedad: 6 de las 27 intenciones totales.</p>
+      <h3 data-i18n="s3_title">Jerarquía de categorías e intenciones</h3>
+      <p class="insight" data-i18n="s3_insight">ACCOUNT no solo lidera en volumen, también en variedad: 6 de las 27 intenciones totales.</p>
     </div>
     <iframe src="03_sunburst_jerarquia.html"></iframe>
   </section>
@@ -194,8 +166,8 @@
   <section class="chart-section" id="s4">
     <div class="header">
       <span class="num">04</span>
-      <h3>Forma de la distribución de longitud de respuesta</h3>
-      <p class="insight">El violin plot revela si la variabilidad de REFUND corresponde a una distribución bimodal o simplemente amplia.</p>
+      <h3 data-i18n="s4_title">Forma de la distribución de longitud de respuesta</h3>
+      <p class="insight" data-i18n="s4_insight">El violin plot revela si la variabilidad de REFUND corresponde a una distribución bimodal o simplemente amplia.</p>
     </div>
     <iframe src="04_violin_longitud.html"></iframe>
   </section>
@@ -203,8 +175,8 @@
   <section class="chart-section" id="s5">
     <div class="header">
       <span class="num">05</span>
-      <h3>Longitud de instrucción vs. longitud de respuesta</h3>
-      <p class="insight">Correlación de apenas 0.11 — la extensión de la consulta no predice la extensión de la respuesta.</p>
+      <h3 data-i18n="s5_title">Longitud de instrucción vs. longitud de respuesta</h3>
+      <p class="insight" data-i18n="s5_insight">Correlación de apenas 0.11 — la extensión de la consulta no predice la extensión de la respuesta.</p>
     </div>
     <iframe src="05_scatter_longitudes.html"></iframe>
   </section>
@@ -212,8 +184,8 @@
   <section class="chart-section" id="s6">
     <div class="header">
       <span class="num">06</span>
-      <h3>Mapa de calor: categoría × intención</h3>
-      <p class="insight">Vista compacta de qué combinaciones de categoría e intención concentran más volumen.</p>
+      <h3 data-i18n="s6_title">Mapa de calor: categoría × intención</h3>
+      <p class="insight" data-i18n="s6_insight">Vista compacta de qué combinaciones de categoría e intención concentran más volumen.</p>
     </div>
     <iframe src="06_heatmap_categoria_intent.html"></iframe>
   </section>
@@ -221,8 +193,8 @@
   <section class="chart-section" id="s7">
     <div class="header">
       <span class="num">07</span>
-      <h3>Panel resumen</h3>
-      <p class="insight">Cuatro métricas clave combinadas en un solo vistazo: volumen, longitud mediana, cantidad de intents y top intents.</p>
+      <h3 data-i18n="s7_title">Panel resumen</h3>
+      <p class="insight" data-i18n="s7_insight">Cuatro métricas clave combinadas en un solo vistazo: volumen, longitud mediana, cantidad de intents y top intents.</p>
     </div>
     <iframe src="07_panel_resumen.html"></iframe>
   </section>
@@ -230,14 +202,75 @@
   <section class="chart-section" id="s8">
     <div class="header">
       <span class="num">08</span>
-      <h3>Comparación multidimensional por categoría</h3>
-      <p class="insight">Volumen, longitud mediana y cantidad de intents normalizados en un mismo radar por categoría.</p>
+      <h3 data-i18n="s8_title">Comparación multidimensional por categoría</h3>
+      <p class="insight" data-i18n="s8_insight">Volumen, longitud mediana y cantidad de intents normalizados en un mismo radar por categoría.</p>
     </div>
     <iframe src="08_radar_categorias.html"></iframe>
   </section>
 
-  <footer>Dataset público de Hugging Face (Bitext, licencia CDLA-Sharing-1.0) · Análisis con pandas + Plotly</footer>
+  <footer data-i18n="footer_text">
+    Dataset público de <a href="https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset" target="_blank">Hugging Face</a> (Bitext, licencia CDLA-Sharing-1.0) · Análisis con pandas + Plotly<br>
+    Por Estanislao Molinas · <a href="https://github.com/estanimolinas" target="_blank">GitHub</a> · <a href="https://www.linkedin.com/in/estanislao-molinas-4057ba1b8/" target="_blank">LinkedIn</a>
+  </footer>
 </main>
+
+<button id="backTop">↑</button>
+
+<script>
+  const darkToggle = document.getElementById('darkToggle');
+  darkToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    darkToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  });
+
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.style.display = window.scrollY > 400 ? 'block' : 'none';
+  });
+  backTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+  const translations = {
+    en: {
+      nav_title: "Bitext Support", nav_tag: "Exploratory Analysis",
+      s1_nav: "01 · Category distribution", s2_nav: "02 · Response length",
+      s3_nav: "03 · Category → intent hierarchy", s4_nav: "04 · Distribution shape",
+      s5_nav: "05 · Instruction vs. response", s6_nav: "06 · Heatmap",
+      s7_nav: "07 · Summary panel", s8_nav: "08 · Multidimensional comparison",
+      nav_repo: "→ Repository on GitHub", nav_dataset: "→ Dataset on Hugging Face",
+      author_by: "By Estanislao Molinas",
+      hero_title: "Customer Support Analysis", hero_sub: "Bitext Customer Support Dataset · pandas + Plotly",
+      link_dataset: "📊 View dataset on Hugging Face", link_repo: "💻 View full repository",
+      stat1: "Queries analyzed", stat2: "Categories", stat3: "Intents", stat4: "Volume in ACCOUNT",
+      book_note: "<strong>Inspiration:</strong> this analysis applies concepts from <em>Practical Statistics for Data Scientists</em> (Bruce, Bruce & Gedeck) — measures of central tendency, variability, skewness and kurtosis applied to a real case.",
+      s1_title: "Query distribution by category", s1_insight: "ACCOUNT concentrates the highest volume (5,986 rows, 22.3%) — the top candidate to prioritize automation.",
+      s2_title: "Response length by category", s2_insight: "REFUND shows the highest dispersion (std of 566, nearly equal to its median) — cases ranging from simple to very extensive.",
+      s3_title: "Hierarchy of categories and intents", s3_insight: "ACCOUNT leads not only in volume but also in variety: 6 of the 27 total intents.",
+      s4_title: "Shape of response length distribution", s4_insight: "The violin plot reveals whether REFUND's variability corresponds to a bimodal or simply wide distribution.",
+      s5_title: "Instruction length vs. response length", s5_insight: "Correlation of just 0.11 — query length does not predict response length.",
+      s6_title: "Heatmap: category × intent", s6_insight: "Compact view of which category-intent combinations concentrate the most volume.",
+      s7_title: "Summary panel", s7_insight: "Four key metrics combined in one view: volume, median length, intent count and top intents.",
+      s8_title: "Multidimensional comparison by category", s8_insight: "Volume, median length and intent count normalized on the same radar per category.",
+      footer_text: 'Public dataset from <a href="https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset" target="_blank">Hugging Face</a> (Bitext, CDLA-Sharing-1.0 license) · Analysis with pandas + Plotly<br>By Estanislao Molinas · <a href="https://github.com/estanimolinas" target="_blank">GitHub</a> · <a href="https://www.linkedin.com/in/estanislao-molinas-4057ba1b8/" target="_blank">LinkedIn</a>'
+    }
+  };
+
+  const original = {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    original[el.getAttribute('data-i18n')] = el.innerHTML;
+  });
+
+  let currentLang = 'es';
+  const langToggle = document.getElementById('langToggle');
+  langToggle.addEventListener('click', () => {
+    currentLang = currentLang === 'es' ? 'en' : 'es';
+    langToggle.textContent = currentLang === 'es' ? 'EN' : 'ES';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      el.innerHTML = currentLang === 'en' ? translations.en[key] : original[key];
+    });
+    document.documentElement.lang = currentLang;
+  });
+</script>
 
 </body>
 </html>
